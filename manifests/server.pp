@@ -1,6 +1,10 @@
-# = Class: openvz::server
+# == Class: openvz::server
 #
 # This class installs and configures an OpenVZ hardware node
+#
+# === Parameters
+#
+# None.
 #
 class openvz::server inherits openvz {
 
@@ -27,17 +31,21 @@ class openvz::server inherits openvz {
 	package {
 		"ovzkernel":
 			name => $lsbmajdistrelease ? {
-				5 => "ovzkernel.${hardwaremodel}",
-				6 => "vzkernel.${hardwaremodel}"
+				5 => "ovzkernel.${::hardwaremodel}",
+				6 => "vzkernel.${::hardwaremodel}"
 			},
 			ensure => installed,
 			require => File["/etc/yum.repos.d/openvz.repo"];
 		"vzctl":
-			name => "vzctl.${hardwaremodel}",
+			name => "vzctl.${::hardwaremodel}",
 			ensure => installed,
 			require => [ File["/etc/yum.repos.d/openvz.repo"], Package["ovzkernel"] ];
 		"vzquota":
-			name => "vzquota.${hardwaremodel}",
+			name => "vzquota.${::hardwaremodel}",
+			ensure => installed,
+			require => [ File["/etc/yum.repos.d/openvz.repo"], Package["ovzkernel"] ];
+		"ploop":
+			name => "vzquota.${::hardwaremodel}",
 			ensure => installed,
 			require => [ File["/etc/yum.repos.d/openvz.repo"], Package["ovzkernel"] ];
 	}
