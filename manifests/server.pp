@@ -45,7 +45,7 @@ class openvz::server inherits openvz {
 			ensure => installed,
 			require => [ File["/etc/yum.repos.d/openvz.repo"], Package["ovzkernel"] ];
 		"ploop":
-			name => "vzquota.${::hardwaremodel}",
+			name => "ploop.${::hardwaremodel}",
 			ensure => installed,
 			require => [ File["/etc/yum.repos.d/openvz.repo"], Package["ovzkernel"] ];
 	}
